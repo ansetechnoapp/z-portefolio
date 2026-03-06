@@ -1,0 +1,483 @@
+/* ============================================
+   PORTFOLIO - Animations
+   Smooth micro-animations for premium feel
+   ============================================ */
+
+/* Fade In Animation */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger Animation Delays */
+.fade-in:nth-child(1) {
+    transition-delay: 0s;
+}
+
+.fade-in:nth-child(2) {
+    transition-delay: 0.1s;
+}
+
+.fade-in:nth-child(3) {
+    transition-delay: 0.2s;
+}
+
+.fade-in:nth-child(4) {
+    transition-delay: 0.3s;
+}
+
+.fade-in:nth-child(5) {
+    transition-delay: 0.4s;
+}
+
+/* Slide In Animations */
+.slide-in-left {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.slide-in-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.slide-in-right {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.slide-in-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Scale In Animation */
+.scale-in {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.scale-in.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Blur In Animation */
+.blur-in {
+    opacity: 0;
+    filter: blur(10px);
+    transition: opacity 0.6s ease-out, filter 0.6s ease-out;
+}
+
+.blur-in.visible {
+    opacity: 1;
+    filter: blur(0);
+}
+
+/* Floating Animation */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.float {
+    animation: float 4s ease-in-out infinite;
+}
+
+/* Glow Pulse Animation */
+@keyframes glow-pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 40px rgba(99, 102, 241, 0.5);
+    }
+}
+
+.glow-pulse {
+    animation: glow-pulse 3s ease-in-out infinite;
+}
+
+/* Gradient Animation */
+@keyframes gradient-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.gradient-animated {
+    background-size: 200% 200%;
+    animation: gradient-shift 5s ease infinite;
+}
+
+/* Text Reveal Animation */
+@keyframes text-reveal {
+    from {
+        clip-path: inset(0 100% 0 0);
+    }
+
+    to {
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+.text-reveal {
+    animation: text-reveal 1s ease-out forwards;
+}
+
+/* Shake Animation (for errors) */
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translateX(-5px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translateX(5px);
+    }
+}
+
+.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+/* Bounce Animation */
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-15px);
+    }
+
+    60% {
+        transform: translateY(-8px);
+    }
+}
+
+.bounce {
+    animation: bounce 2s ease infinite;
+}
+
+/* Rotate Animation */
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.rotate {
+    animation: rotate 8s linear infinite;
+}
+
+/* Progress Bar Loading */
+@keyframes progress-fill {
+    from {
+        width: 0;
+    }
+}
+
+.progress-animate {
+    animation: progress-fill 1.5s ease-out forwards;
+}
+
+/* Card Hover Effect */
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Border Glow on Hover */
+.hover-glow {
+    transition: box-shadow 0.3s ease;
+}
+
+.hover-glow:hover {
+    box-shadow: 0 0 30px rgba(99, 102, 241, 0.4);
+}
+
+/* Typewriter Effect */
+@keyframes typing {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes blink-caret {
+
+    from,
+    to {
+        border-color: transparent;
+    }
+
+    50% {
+        border-color: var(--color-accent-primary);
+    }
+}
+
+.typewriter {
+    overflow: hidden;
+    border-right: 3px solid var(--color-accent-primary);
+    white-space: nowrap;
+    animation:
+        typing 3s steps(30, end),
+        blink-caret 0.75s step-end infinite;
+}
+
+/* Parallax Effect */
+.parallax {
+    transition: transform 0.1s ease-out;
+    will-change: transform;
+}
+
+/* Ripple Effect */
+@keyframes ripple {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+.ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    left: 50%;
+    pointer-events: none;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.3) 10%, transparent 10%);
+    background-repeat: no-repeat;
+    background-position: 50%;
+    transform: scale(10);
+    opacity: 0;
+    transition: transform 0.5s, opacity 0.5s;
+}
+
+.ripple:active::after {
+    transform: scale(0);
+    opacity: 1;
+    transition: 0s;
+}
+
+/* Skeleton Loading */
+@keyframes skeleton-pulse {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.skeleton {
+    background: linear-gradient(90deg,
+            var(--color-bg-tertiary) 25%,
+            var(--color-bg-secondary) 50%,
+            var(--color-bg-tertiary) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+    border-radius: var(--radius-sm);
+}
+
+/* Smooth Scroll */
+.smooth-scroll {
+    scroll-behavior: smooth;
+}
+
+/* Intersection Observer Reveal Classes */
+.reveal {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s ease, transform 0.8s ease, visibility 0.8s;
+}
+
+.reveal.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.reveal.reveal-left {
+    transform: translateX(-50px);
+}
+
+.reveal.reveal-right {
+    transform: translateX(50px);
+}
+
+.reveal.reveal-up {
+    transform: translateY(50px);
+}
+
+.reveal.reveal-down {
+    transform: translateY(-50px);
+}
+
+.reveal.reveal-scale {
+    transform: scale(0.8);
+}
+
+.reveal.active.reveal-left,
+.reveal.active.reveal-right {
+    transform: translateX(0);
+}
+
+.reveal.active.reveal-up,
+.reveal.active.reveal-down {
+    transform: translateY(0);
+}
+
+.reveal.active.reveal-scale {
+    transform: scale(1);
+}
+
+/* Delayed Animations */
+.delay-100 {
+    animation-delay: 100ms !important;
+    transition-delay: 100ms !important;
+}
+
+.delay-200 {
+    animation-delay: 200ms !important;
+    transition-delay: 200ms !important;
+}
+
+.delay-300 {
+    animation-delay: 300ms !important;
+    transition-delay: 300ms !important;
+}
+
+.delay-400 {
+    animation-delay: 400ms !important;
+    transition-delay: 400ms !important;
+}
+
+.delay-500 {
+    animation-delay: 500ms !important;
+    transition-delay: 500ms !important;
+}
+
+.delay-600 {
+    animation-delay: 600ms !important;
+    transition-delay: 600ms !important;
+}
+
+.delay-700 {
+    animation-delay: 700ms !important;
+    transition-delay: 700ms !important;
+}
+
+.delay-800 {
+    animation-delay: 800ms !important;
+    transition-delay: 800ms !important;
+}
+
+/* Duration Modifiers */
+.duration-slow {
+    animation-duration: 1.2s !important;
+    transition-duration: 1.2s !important;
+}
+
+.duration-normal {
+    animation-duration: 0.6s !important;
+    transition-duration: 0.6s !important;
+}
+
+.duration-fast {
+    animation-duration: 0.3s !important;
+    transition-duration: 0.3s !important;
+}
+
+/* Reduced Motion for Accessibility */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .fade-in,
+    .slide-in-left,
+    .slide-in-right,
+    .scale-in,
+    .blur-in,
+    .reveal {
+        opacity: 1;
+        transform: none;
+        filter: none;
+        visibility: visible;
+    }
+}

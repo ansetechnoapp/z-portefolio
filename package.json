@@ -1,0 +1,7 @@
+{
+  "name": "zodback-portfolio",
+  "private": true,
+  "scripts": {
+    "dev": "bunx serve -l 5500 ."
+  }
+}
