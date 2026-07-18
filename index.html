@@ -1,37 +1,535 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Portfolio</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Kowin City - Studio digital pour expériences web premium.">
+  <meta name="theme-color" content="#0c0d10">
+  <title>Kowin City | Studio digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-  <meta name="robots" content="index,follow">
 </head>
 <body>
-  <header class="header">
-    <div class="container">
-      <h1 id="portfolio-title" class="title">Portfolio</h1>
-      <p id="portfolio-subtitle" class="subtitle">Projects • Skills • Experiences • Testimonials</p>
-    </div>
-  </header>
-  <main class="container">
-    <section id="projects" class="section">
-      <h2 class="section-title">Projects</h2>
-      <div id="projects-container" class="grid"></div>
-    </section>
-    <section id="skills" class="section">
-      <h2 class="section-title">Skills</h2>
-      <div id="skills-container" class="tags"></div>
-    </section>
-    <section id="experiences" class="section">
-      <h2 class="section-title">Experiences</h2>
-      <div id="experiences-container" class="list"></div>
-    </section>
-    <section id="testimonials" class="section">
-      <h2 class="section-title">Testimonials</h2>
-      <div id="testimonials-container" class="list"></div>
-    </section>
-  </main>
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+  <div class="site-shell">
+    <header class="site-header" id="header">
+      <div class="container header__inner">
+        <a class="brand" href="#accueil" aria-label="Kowin City - Accueil">
+          <span class="brand__mark">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M4 16.5V7.5L12 16.5V7.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M14 7.5V16.5C16.8 16.5 18 14.8 18 12C18 9.2 16.8 7.5 14 7.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="brand__text">
+            <strong>Kevin Oty</strong>
+            <small>Studio digital</small>
+          </span>
+        </a>
+
+        <nav class="nav" id="nav" aria-label="Navigation principale">
+          <button class="nav__close" id="navClose" type="button" aria-label="Fermer le menu">
+            <span></span>
+            <span></span>
+          </button>
+          <a class="nav__link is-active" href="#accueil">Actual</a>
+          <a class="nav__link" href="#a-propos">A propos</a>
+          <a class="nav__link" href="#realisations">Projets</a>
+          <a class="nav__link" href="#expertises">Services</a>
+          <a class="nav__link" href="#atelier">Process</a>
+          <a class="nav__link" href="#publications">Blog</a>
+          <a class="nav__link" href="#contact">Contact</a>
+        </nav>
+
+        <div class="header__actions">
+          <a class="btn btn--ghost btn--small" href="#contact">Télécharger mon CV</a>
+          <button class="icon-btn" id="navToggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="contenu">
+      <section class="hero section-anchor" id="accueil" aria-labelledby="hero-title">
+        <div class="container hero__grid">
+          <div class="hero__content" data-reveal>
+            <p class="eyebrow">Bonjour, je suis Kevin Oty 👋</p>
+            <h1 id="hero-title" class="hero__title">
+              Façonnons des solutions numériques
+              <span class="hero__title-accent">épurées, intuitives, et impactantes.</span>
+            </h1>
+            <p class="hero__lead">
+              Développeur full-stack passionné, je concrétise vos idées avec une interface claire,
+              des expériences fluides et une exécution technique fiable.
+            </p>
+
+            <div class="hero__cta">
+              <a class="btn btn--primary" href="#realisations">Voir mes projets</a>
+              <a class="btn btn--outline" href="#contact">Me contacter</a>
+            </div>
+
+            <p class="hero__note">Disponible pour des missions de design, développement et accompagnement produit.</p>
+
+            <div class="socials" aria-label="Réseaux sociaux">
+              <a href="#" aria-label="GitHub"><span>GH</span></a>
+              <a href="#" aria-label="LinkedIn"><span>in</span></a>
+              <a href="#" aria-label="X"><span>X</span></a>
+              <a href="#" aria-label="Dribbble"><span>Db</span></a>
+            </div>
+          </div>
+
+          <div class="hero__visual" data-reveal aria-label="Portrait et métriques">
+            <div class="hero__halo" aria-hidden="true"></div>
+            <div class="hero__portrait-card">
+              <svg viewBox="0 0 720 760" role="img" aria-label="Illustration de portrait stylisé">
+                <defs>
+                  <radialGradient id="portraitGlow" cx="50%" cy="42%" r="60%">
+                    <stop offset="0%" stop-color="#f0d0b2" stop-opacity="0.95"/>
+                    <stop offset="42%" stop-color="#c58a63" stop-opacity="0.55"/>
+                    <stop offset="100%" stop-color="#0d0e12" stop-opacity="0"/>
+                  </radialGradient>
+                  <linearGradient id="shirt" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#25272d"/>
+                    <stop offset="100%" stop-color="#101114"/>
+                  </linearGradient>
+                  <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#a96f49"/>
+                    <stop offset="45%" stop-color="#7a4e36"/>
+                    <stop offset="100%" stop-color="#503225"/>
+                  </linearGradient>
+                  <linearGradient id="skinLight" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#d39b70"/>
+                    <stop offset="100%" stop-color="#8c5a3d"/>
+                  </linearGradient>
+                  <linearGradient id="glasses" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#201a18"/>
+                    <stop offset="100%" stop-color="#6f4c37"/>
+                  </linearGradient>
+                </defs>
+
+                <rect width="720" height="760" rx="36" fill="#17191e"/>
+                <rect width="720" height="760" rx="36" fill="url(#portraitGlow)" opacity="0.95"/>
+                <circle cx="356" cy="248" r="210" fill="#f0caa3" opacity="0.12"/>
+                <circle cx="356" cy="248" r="178" fill="#d7a475" opacity="0.10"/>
+
+                <g transform="translate(360 390)">
+                  <path d="M-160 185C-146 92-102 21-42 2c30-10 54-10 84 0 61 19 105 90 118 183H-160Z" fill="url(#shirt)"/>
+                  <path d="M-76 148C-54 106-26 83 0 83c26 0 54 23 76 65l42 77H-118l42-77Z" fill="#1d1f24"/>
+                  <path d="M-124 18C-103-64-46-112 0-112c46 0 103 48 124 130 17 68-8 144-30 184-19 34-56 70-94 70-38 0-75-36-94-70-22-40-47-116-30-184Z" fill="url(#skin)"/>
+                  <path d="M-78 27c8-42 33-82 78-82s70 41 78 82c7 35-2 73-10 96-8 23-36 49-68 49s-60-26-68-49c-8-23-17-61-10-96Z" fill="url(#skinLight)" opacity="0.55"/>
+                  <path d="M-88 -20c8-27 41-49 88-49s80 22 88 49c4 14 2 28-7 40-28-18-49-26-81-26-31 0-55 8-81 26-9-12-11-26-7-40Z" fill="#15161a"/>
+                  <path d="M-65 -14c22-18 48-27 65-27s43 9 65 27c10 8 18 19 24 34-31 7-57 21-89 21s-58-14-89-21c6-15 14-26 24-34Z" fill="#20191a"/>
+                  <path d="M-48 60c16-8 31-12 48-12s32 4 48 12c-10 12-29 20-48 20s-38-8-48-20Z" fill="#1d1615" opacity="0.5"/>
+
+                  <g opacity="0.95">
+                    <rect x="-72" y="-6" width="60" height="38" rx="18" fill="none" stroke="url(#glasses)" stroke-width="4"/>
+                    <rect x="12" y="-6" width="60" height="38" rx="18" fill="none" stroke="url(#glasses)" stroke-width="4"/>
+                    <path d="M-12 11h24" stroke="url(#glasses)" stroke-width="4" stroke-linecap="round"/>
+                    <path d="M-60 8h-12" stroke="url(#glasses)" stroke-width="4" stroke-linecap="round"/>
+                    <path d="M72 8h12" stroke="url(#glasses)" stroke-width="4" stroke-linecap="round"/>
+                    <circle cx="-42" cy="10" r="8" fill="#e4b68d" opacity="0.2"/>
+                    <circle cx="42" cy="10" r="8" fill="#e4b68d" opacity="0.2"/>
+                  </g>
+
+                  <path d="M-22 22c9 5 17 5 26 0" stroke="#5d402e" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.7"/>
+                  <path d="M-8 42c7 9 15 9 22 0" stroke="#5d402e" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.6"/>
+                  <path d="M-18 72c14 10 42 10 56 0" stroke="#e1b08a" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.55"/>
+
+                  <path d="M-154 160c38-18 72-24 106-20" stroke="#f2d0b4" stroke-opacity="0.15" stroke-width="26" stroke-linecap="round" fill="none"/>
+                  <path d="M154 160c-38-18-72-24-106-20" stroke="#f2d0b4" stroke-opacity="0.15" stroke-width="26" stroke-linecap="round" fill="none"/>
+
+                  <path d="M-142 214c23-31 46-45 82-51" stroke="#d9a173" stroke-width="18" stroke-linecap="round" fill="none" opacity="0.45"/>
+                  <path d="M142 214c-23-31-46-45-82-51" stroke="#d9a173" stroke-width="18" stroke-linecap="round" fill="none" opacity="0.45"/>
+                </g>
+
+                <g opacity="0.18">
+                  <circle cx="108" cy="120" r="3" fill="#f0caa3"/>
+                  <circle cx="172" cy="84" r="2" fill="#f0caa3"/>
+                  <circle cx="540" cy="132" r="3" fill="#f0caa3"/>
+                  <circle cx="594" cy="246" r="2" fill="#f0caa3"/>
+                  <circle cx="98" cy="548" r="3" fill="#f0caa3"/>
+                  <circle cx="612" cy="586" r="3" fill="#f0caa3"/>
+                </g>
+              </svg>
+            </div>
+
+            <div class="code-card code-card--primary" aria-hidden="true">
+              <p class="code-card__title">const greeting = "design × code";</p>
+              <pre><code>{
+  "focus": "clarity",
+  "motion": "subtle",
+  "impact": "measurable"
+}</code></pre>
+            </div>
+
+            <div class="code-card code-card--secondary" aria-hidden="true">
+              <p class="code-card__label">Audit rapide</p>
+              <p>Performances, accessibilité, cohérence visuelle et conversion.</p>
+            </div>
+
+            <div class="hero__facts">
+              <div class="fact">
+                <span class="fact__icon">⟡</span>
+                <strong>Abidjan</strong>
+                <span>Côte d’Ivoire</span>
+              </div>
+              <div class="fact">
+                <span class="fact__icon">◎</span>
+                <strong data-counter="5" data-suffix="+">5+</strong>
+                <span>années d'expérience</span>
+              </div>
+              <div class="fact">
+                <span class="fact__icon">✦</span>
+                <strong data-counter="30" data-suffix="+">30+</strong>
+                <span>projets livrés</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="a-propos" aria-labelledby="projects-title">
+        <div class="container">
+          <div class="section-head section-head--split">
+            <div>
+              <p class="eyebrow">TOUT MON TRAVAIL</p>
+              <h2 class="section-title" id="projects-title">Réalisations d'exception</h2>
+            </div>
+            <a class="section-link" href="#realisations">Voir tous les projets</a>
+          </div>
+
+          <div class="project-grid" id="realisations">
+            <article class="project-card project-card--wide" data-reveal>
+              <div class="project-card__preview project-card__preview--dark">
+                <span class="project-badge">Pop-up store</span>
+                <div class="mini-ui mini-ui--dark">
+                  <div class="mini-ui__pane mini-ui__pane--left"></div>
+                  <div class="mini-ui__pane mini-ui__pane--right"></div>
+                  <div class="mini-ui__chips">
+                    <span></span><span></span><span></span>
+                  </div>
+                </div>
+              </div>
+              <div class="project-card__body">
+                <h3>Zoentick</h3>
+                <p>Conception d’une boutique événementielle immersive avec parcours éditorial et identité visuelle premium.</p>
+                <div class="tag-row">
+                  <span>Branding</span><span>UI</span><span>Animations</span>
+                </div>
+                <a href="#">Voir le projet</a>
+              </div>
+            </article>
+
+            <article class="project-card" data-reveal>
+              <div class="project-card__preview project-card__preview--light">
+                <span class="project-badge project-badge--soft">SaaS</span>
+                <div class="mini-ui mini-ui--light">
+                  <div class="mini-ui__chart"></div>
+                  <div class="mini-ui__bars">
+                    <span></span><span></span><span></span><span></span>
+                  </div>
+                </div>
+              </div>
+              <div class="project-card__body">
+                <h3>SIA - 3BEE Bamin</h3>
+                <p>Dashboard analytique et expérience produit claire pour piloter des opérations métiers complexes.</p>
+                <div class="tag-row">
+                  <span>Dashboard</span><span>Web</span><span>Data</span>
+                </div>
+                <a href="#">Voir le projet</a>
+              </div>
+            </article>
+
+            <article class="project-card" data-reveal>
+              <div class="project-card__preview project-card__preview--purple">
+                <span class="project-badge project-badge--rose">Média</span>
+                <div class="mini-ui mini-ui--purple">
+                  <div class="mini-ui__cards">
+                    <span></span><span></span><span></span>
+                  </div>
+                </div>
+              </div>
+              <div class="project-card__body">
+                <h3>Playflow Mobile</h3>
+                <p>Application mobile pensée pour l’engagement, la lisibilité et des micro-interactions généreuses.</p>
+                <div class="tag-row">
+                  <span>Mobile</span><span>Motion</span><span>App</span>
+                </div>
+                <a href="#">Voir le projet</a>
+              </div>
+            </article>
+
+            <article class="project-card" data-reveal>
+              <div class="project-card__preview project-card__preview--amber">
+                <span class="project-badge project-badge--amber">Commerce</span>
+                <div class="mini-ui mini-ui--amber">
+                  <div class="mini-ui__grid">
+                    <span></span><span></span><span></span><span></span>
+                  </div>
+                </div>
+              </div>
+              <div class="project-card__body">
+                <h3>Shopcase</h3>
+                <p>Refonte e-commerce avec conversion optimisée, composition éditoriale forte et cartographie claire.</p>
+                <div class="tag-row">
+                  <span>Store</span><span>UX</span><span>Sales</span>
+                </div>
+                <a href="#">Voir le projet</a>
+              </div>
+            </article>
+          </div>
+
+          <div class="partners" aria-label="Partenaires de confiance" data-reveal>
+            <span class="partners__title">Partenaires de confiance</span>
+            <div class="partners__row">
+              <span>NEBULA</span>
+              <span>Cascade</span>
+              <span>Sentry</span>
+              <span>CloudUp</span>
+              <span>Shopify+</span>
+              <span>Daylight</span>
+              <span>Derma</span>
+              <span>Outcube</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--alt" id="expertises" aria-labelledby="expertise-title">
+        <div class="container">
+          <div class="section-head">
+            <p class="eyebrow">CE QUE JE CONSTRUIS</p>
+            <h2 class="section-title" id="expertise-title">Expertises d'Excellence</h2>
+          </div>
+
+          <div class="expertise-grid">
+            <article class="expertise-card" data-reveal>
+              <span class="expertise-card__icon">✦</span>
+              <h3>Développement Web & Mobile</h3>
+              <p>Interfaces performantes, maintenables et pensées pour la croissance, du prototype à la production.</p>
+              <a href="#">En savoir plus</a>
+            </article>
+            <article class="expertise-card expertise-card--accent" data-reveal>
+              <span class="expertise-card__icon">◌</span>
+              <h3>API & Backend Moderne</h3>
+              <p>Architecture claire, sécurité, intégrations et automatisation pour délivrer sans friction.</p>
+              <a href="#">En savoir plus</a>
+            </article>
+            <article class="expertise-card" data-reveal>
+              <span class="expertise-card__icon">⌁</span>
+              <h3>UI/UX Design</h3>
+              <p>Hiérarchie visuelle, motion discret et design system cohérent pour une expérience premium.</p>
+              <a href="#">En savoir plus</a>
+            </article>
+            <article class="expertise-card" data-reveal>
+              <span class="expertise-card__icon">◉</span>
+              <h3>Audit & Conseil</h3>
+              <p>Analyse produit, optimisation des parcours et recommandations actionnables rapidement.</p>
+              <a href="#">En savoir plus</a>
+            </article>
+            <article class="expertise-card" data-reveal>
+              <span class="expertise-card__icon">✺</span>
+              <h3>Automation & IA</h3>
+              <p>Gains de temps, scénarios intelligents et automatisation utile au service du métier.</p>
+              <a href="#">En savoir plus</a>
+            </article>
+          </div>
+
+          <div class="stats-row" data-reveal>
+            <div class="stats-row__item"><strong data-counter="5" data-suffix="+">5+</strong><span>Années d’expérience</span></div>
+            <div class="stats-row__item"><strong data-counter="30" data-suffix="+">30+</strong><span>Projets réalisés</span></div>
+            <div class="stats-row__item"><strong data-counter="20" data-suffix="+">20+</strong><span>Clients accompagnés</span></div>
+            <div class="stats-row__item"><strong data-counter="10" data-suffix="+">10+</strong><span>Technologies maîtrisées</span></div>
+            <div class="stats-row__item"><strong data-counter="100" data-suffix="%">100%</strong><span>Satisfaction client</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="atelier" aria-labelledby="atelier-title">
+        <div class="container">
+          <div class="section-head">
+            <p class="eyebrow">MES COMPETENCES</p>
+            <h2 class="section-title" id="atelier-title">L'Atelier Technologique</h2>
+          </div>
+
+          <div class="tech-lab">
+            <article class="tech-group" data-reveal>
+              <div class="tech-group__head">
+                <span class="tech-group__label">Frontend</span>
+                <span class="tech-group__count">12 outils</span>
+              </div>
+              <div class="tech-group__chips">
+                <span>HTML5</span><span>CSS3</span><span>JS</span><span>React</span><span>Next</span><span>TypeScript</span><span>Tailwind</span><span>GSAP</span>
+              </div>
+            </article>
+            <article class="tech-group" data-reveal>
+              <div class="tech-group__head">
+                <span class="tech-group__label">Backend</span>
+                <span class="tech-group__count">8 outils</span>
+              </div>
+              <div class="tech-group__chips">
+                <span>Node</span><span>API</span><span>Postgres</span><span>Redis</span><span>Mongo</span><span>Auth</span><span>GraphQL</span><span>REST</span>
+              </div>
+            </article>
+            <article class="tech-group" data-reveal>
+              <div class="tech-group__head">
+                <span class="tech-group__label">Réel & Cloud</span>
+                <span class="tech-group__count">6 outils</span>
+              </div>
+              <div class="tech-group__chips">
+                <span>AWS</span><span>Docker</span><span>CI/CD</span><span>Linux</span><span>Vercel</span><span>Monitoring</span>
+              </div>
+            </article>
+            <article class="tech-group" data-reveal>
+              <div class="tech-group__head">
+                <span class="tech-group__label">Créa & Prod</span>
+                <span class="tech-group__count">10 outils</span>
+              </div>
+              <div class="tech-group__chips">
+                <span>Figma</span><span>Photoshop</span><span>Illustrator</span><span>Blender</span><span>Notion</span><span>Webflow</span><span>Loom</span><span>Analytics</span>
+              </div>
+            </article>
+          </div>
+
+          <div class="section-actions">
+            <a class="btn btn--outline" href="#contact">Voir toutes mes compétences</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--alt" id="publications" aria-labelledby="publications-title">
+        <div class="container">
+          <div class="section-head section-head--split">
+            <div>
+              <p class="eyebrow">LIRE ET APPRENDRE</p>
+              <h2 class="section-title" id="publications-title">Mes publications</h2>
+            </div>
+            <a class="section-link" href="#">Voir tout le blog</a>
+          </div>
+
+          <div class="blog-grid">
+            <article class="blog-card" data-reveal>
+              <div class="blog-card__media blog-card__media--city"></div>
+              <div class="blog-card__body">
+                <p class="blog-card__meta">17 juil. 2026 • Design system</p>
+                <h3>Architecture Claire avec Netcis</h3>
+                <p>Comment structurer des interfaces de production lisibles, rapides et cohérentes.</p>
+              </div>
+            </article>
+            <article class="blog-card" data-reveal>
+              <div class="blog-card__media blog-card__media--sea"></div>
+              <div class="blog-card__body">
+                <p class="blog-card__meta">10 juil. 2026 • Performance</p>
+                <h3>Capitainer les performances Next.js</h3>
+                <p>Des méthodes concrètes pour préserver la vitesse perçue et le confort d’usage.</p>
+              </div>
+            </article>
+            <article class="blog-card" data-reveal>
+              <div class="blog-card__media blog-card__media--lab"></div>
+              <div class="blog-card__body">
+                <p class="blog-card__meta">02 juil. 2026 • Expérience</p>
+                <h3>Se Flow - Retour d'expérience</h3>
+                <p>Récit d’une refonte orientée conversion, micro-interactions et clarté éditoriale.</p>
+              </div>
+            </article>
+            <article class="blog-card" data-reveal>
+              <div class="blog-card__media blog-card__media--grid"></div>
+              <div class="blog-card__body">
+                <p class="blog-card__meta">28 juin 2026 • Sécurité</p>
+                <h3>Sécurer un API REST</h3>
+                <p>Les réflexes essentiels pour fiabiliser les échanges et garder un socle robuste.</p>
+              </div>
+            </article>
+          </div>
+
+          <div class="cta-banner" id="contact" data-reveal>
+            <div class="cta-banner__copy">
+              <p class="eyebrow">VOTRE PROJET ICI</p>
+              <h2>Donnons vie à vos projets visionnaires</h2>
+              <p>Vous avez une idée et vous cherchez une exécution élégante, précise et rapide à déployer ?</p>
+            </div>
+            <div class="cta-banner__actions">
+              <a class="btn btn--primary" href="mailto:hello@kowincity.com">Me contacter</a>
+              <a class="btn btn--outline" href="#">Prendre rendez-vous</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer__grid">
+        <div class="footer__brand">
+          <a class="brand brand--footer" href="#accueil">
+            <span class="brand__mark">K</span>
+            <span class="brand__text">
+              <strong>Kowin City</strong>
+              <small>Interfaces qui inspirent</small>
+            </span>
+          </a>
+          <p>Studio indépendant pour solutions numériques premium, du concept à la livraison.</p>
+          <div class="socials socials--footer" aria-label="Réseaux sociaux">
+            <a href="#" aria-label="Instagram"><span>Ig</span></a>
+            <a href="#" aria-label="Behance"><span>Be</span></a>
+            <a href="#" aria-label="LinkedIn"><span>in</span></a>
+            <a href="#" aria-label="GitHub"><span>GH</span></a>
+          </div>
+        </div>
+
+        <div class="footer__cols">
+          <div>
+            <h3>Navigation</h3>
+            <a href="#a-propos">A propos</a>
+            <a href="#realisations">Projets</a>
+            <a href="#expertises">Services</a>
+            <a href="#publications">Blog</a>
+          </div>
+          <div>
+            <h3>Services</h3>
+            <a href="#">Développement Web</a>
+            <a href="#">UI/UX Design</a>
+            <a href="#">Audit & Conseil</a>
+            <a href="#">Automation & IA</a>
+          </div>
+          <div>
+            <h3>Ressources</h3>
+            <a href="#">FAQ</a>
+            <a href="#">Mentions légales</a>
+            <a href="#">Politique de confidentialité</a>
+            <a href="#">Blog</a>
+          </div>
+          <div>
+            <h3>Newsletter</h3>
+            <p>Recevez les dernières inspirations, études de cas et ressources.</p>
+            <form class="newsletter" id="newsletterForm">
+              <label class="sr-only" for="newsletterEmail">Adresse email</label>
+              <input id="newsletterEmail" name="email" type="email" placeholder="Votre email" autocomplete="email" required>
+              <button class="btn btn--primary btn--block" type="submit">S'abonner</button>
+            </form>
+            <p class="newsletter__status" id="newsletterStatus" aria-live="polite"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="container footer__bottom">
+        <p>© 2026 Kevin Oty. Tous droits réservés.</p>
+        <a href="#accueil" class="back-link">Retour en haut</a>
+      </div>
+    </footer>
+  </div>
+
+  <button class="back-to-top" id="backToTop" type="button" aria-label="Revenir en haut">
+    ↑
+  </button>
+
+  <div class="nav-overlay" id="navOverlay" hidden></div>
+
   <script type="module" src="js/app.js"></script>
 </body>
 </html>
