@@ -1,14 +1,7 @@
 export const PORTFOLIO_CONFIG = {
-  // Base URL for the Portfolio API (Public endpoints)
-  API_URL: 'https://api.zodev.live/api/portfolio/v1/public',
-  
-  // Your API Key here (Required for verification)
-  API_TOKEN: 'zb_5zvnge0DI5cJKSXDB8gOCNNtxJHSAVjLtNEv_FROqTo',
-
-  PROJECT_ID: '1',
-  TEMPLATE: 'default',
-  THEME: 'light',
+  API_URL: 'https://integrations-api.zodev.live/api/portfolio',
+  API_FALLBACK_BASE_URL: 'https://api.zodev.live/api/portfolio',
+  LOCAL_API_BASE_URL: 'http://localhost:3013/api/portfolio',
+  SHOWCASE_SLUG: 'kowin-city',
   CACHE_DURATION: 300000,
-  DEBUG: false,
 };
-
