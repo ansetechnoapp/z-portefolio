@@ -1,6 +1,9 @@
 'use strict';
 
 import { getAll } from './api.js';
+import { renderManualComposition } from './composition-renderer.js';
+import { mountGitHubSection } from './github-section.js';
+import { isExternalHref, normalizeHref } from './url-utils.js';
 
 const header = document.getElementById('header');
 const nav = document.getElementById('nav');
@@ -36,6 +39,10 @@ const ctaSecondary = document.querySelector('.cta-banner__actions .btn--outline'
 const footerBrandCopy = document.querySelector('.footer__brand > p');
 const footerCopyright = document.querySelector('.footer__bottom p');
 const metaDescription = document.querySelector('meta[name="description"]');
+const metaOgTitle = document.querySelector('meta[property="og:title"]');
+const metaOgDescription = document.querySelector('meta[property="og:description"]');
+const canonicalLink = document.querySelector('link[rel="canonical"]');
+const portfolioUnavailable = document.getElementById('portfolioUnavailable');
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function setText(node, value) {
@@ -73,21 +80,18 @@ function setCounterValue(node, value, suffix = '') {
   node.textContent = `${raw}${suffix}`;
 }
 
-function normalizeHref(value) {
-  const href = String(value || '').trim();
-  if (!href || href === '#') return '';
-  return href;
-}
-
-function isExternalHref(href) {
-  return /^https?:\/\//i.test(href);
-}
-
 function setLink(node, href, { label, targetBlank = false, text } = {}) {
-  if (!node || !href) return false;
-  node.href = href;
+  if (!node) return false;
+  const safeHref = normalizeHref(href);
+  if (!safeHref) {
+    node.removeAttribute('href');
+    node.removeAttribute('target');
+    node.removeAttribute('rel');
+    return false;
+  }
+  node.href = safeHref;
 
-  if (targetBlank || isExternalHref(href)) {
+  if (targetBlank || isExternalHref(safeHref)) {
     node.target = '_blank';
     node.rel = 'noreferrer noopener';
   } else {
@@ -434,12 +438,19 @@ function bindFocusManagement() {
 function updateMeta(profile, site) {
   const brandName = profile?.brand?.name || site?.title || 'Portfolio';
   const headline = profile?.headline || site?.config?.brand || 'Portfolio ZodBack';
+  const shareTitle = `${brandName} | ${headline}`;
+  const shareDescription = profile?.bio || 'Découvrez le parcours, les projets et les expertises présentés dans ce portfolio.';
 
-  if (metaDescription && profile?.bio) {
-    metaDescription.setAttribute('content', profile.bio);
+  if (metaDescription) {
+    metaDescription.setAttribute('content', shareDescription);
+  }
+  if (metaOgTitle) metaOgTitle.setAttribute('content', shareTitle);
+  if (metaOgDescription) metaOgDescription.setAttribute('content', shareDescription);
+  if (canonicalLink && window.location?.origin) {
+    canonicalLink.href = `${window.location.origin}${window.location.pathname}`;
   }
 
-  document.title = `${brandName} | ${headline}`;
+  document.title = shareTitle;
 }
 
 function updateBranding(profile, site) {
@@ -758,8 +769,8 @@ function updateStats(profile, counts) {
   }
 
   if (stats[4] && testimonialCount > 0) {
-    setCounterValue(stats[4].querySelector('[data-counter]'), 100, '%');
-    setText(stats[4].querySelector('span'), 'Satisfaction client');
+    setCounterValue(stats[4].querySelector('[data-counter]'), testimonialCount, '');
+    setText(stats[4].querySelector('span'), 'Avis publiés');
   }
 }
 
@@ -818,6 +829,17 @@ function updateFooter(profile, site) {
 function applyPortfolioData(portfolio) {
   if (!portfolio || typeof portfolio !== 'object') return;
 
+  if (portfolio.renderMode === 'manual') {
+    const main = document.getElementById('contenu');
+    const applied = renderManualComposition(main, portfolio.composition);
+    if (!applied) return false;
+    document.body.classList.add('is-manual-composition');
+    const title = portfolio.site?.title || portfolio.composition?.title || 'Portfolio';
+    document.title = title;
+    if (metaDescription) metaDescription.setAttribute('content', `Portfolio de ${title}`);
+    return true;
+  }
+
   const profile = portfolio.profile || null;
   const site = portfolio.site || null;
   const projects = Array.isArray(portfolio.projects) ? portfolio.projects : [];
@@ -833,7 +855,7 @@ function applyPortfolioData(portfolio) {
   };
 
   if (!profile && !projects.length && !skills.length && !experiences.length && !testimonials.length) {
-    return;
+    return false;
   }
 
   updateMeta(profile, site);
@@ -849,6 +871,16 @@ function applyPortfolioData(portfolio) {
   updateStats(profile, counts);
   updateCallToAction(profile);
   updateFooter(profile, site);
+  return true;
+}
+
+function showUnavailableState() {
+  document.body.classList.add('is-portfolio-unavailable');
+  if (portfolioUnavailable) portfolioUnavailable.hidden = false;
+  document.title = 'Portfolio temporairement indisponible';
+  if (metaDescription) {
+    metaDescription.setAttribute('content', 'Le contenu public de ce portfolio est temporairement indisponible.');
+  }
 }
 
 async function loadPortfolioData() {
@@ -869,9 +901,9 @@ async function bootstrap() {
   bindFocusManagement();
 
   const portfolio = await loadPortfolioData();
-  if (portfolio) {
-    applyPortfolioData(portfolio);
-  }
+  const applied = portfolio ? applyPortfolioData(portfolio) : false;
+  if (!applied) showUnavailableState();
+  if (applied && portfolio.renderMode !== 'manual') mountGitHubSection(portfolio.profile?.socialLinks?.github);
 
   initCounters();
 }

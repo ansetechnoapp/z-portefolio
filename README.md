@@ -7,6 +7,7 @@ A beautiful, modern portfolio template that fetches data from your Zodback dashb
 - **Modern Design**: Clean, professional design with smooth animations
 - **Fully Responsive**: Works perfectly on all devices
 - **Dynamic Content**: Fetches your portfolio data from Zodback API
+- **Automatic GitHub Profile**: Derives the public GitHub profile and repositories from ZodBack
 - **Fast Loading**: Optimized for performance with caching
 - **Easy Customization**: Simple configuration file
 - **SEO Friendly**: Semantic HTML structure
@@ -14,13 +15,9 @@ A beautiful, modern portfolio template that fetches data from your Zodback dashb
 
 ## 🚀 Quick Start
 
-### 1. Get Your API Token
+### 1. Public Showcase Source
 
-1. Log in to your Zodback dashboard
-2. Navigate to **Dashboard > API Tokens**
-3. Click **"Generate New Token"**
-4. Select the **PORTFOLIO** entity with **READ** permission
-5. Copy the generated token
+The public site `portfolio.zodev.live` reads directly from the Zodback portfolio showcase configured in `js/config.js`. No browser token is required for the live site. The showcase discriminates template and manual publications with `data.renderMode`. Manual Composition documents are rendered through a strict `core.*` DOM allowlist; remote values are never interpreted as HTML, CSS, or JavaScript. If the publication cannot be verified, the site shows an explicit unavailable state and never falls back to demo content.
 
 ### 2. Configure Your Portfolio
 
@@ -28,22 +25,9 @@ Open `js/config.js` and update the following:
 
 ```javascript
 const PORTFOLIO_CONFIG = {
-    // Your Zodback API URL
-    API_URL: 'https://your-zodback-api.com/api',
-    
-    // Your API Token (from step 1)
-    API_TOKEN: 'tok_your_token_here',
-    
-    // Your Project ID (find in Dashboard > Projects)
-    PROJECT_ID: 'your_project_id',
-    
-    // Your personal information
-    OWNER: {
-        name: 'Your Name',
-        role: 'Your Role',
-        email: 'your@email.com',
-        // ... other details
-    }
+    API_URL: 'https://integrations-api.zodev.live/api/portfolio',
+    SHOWCASE_SLUG: 'kowin-city',
+    CACHE_DURATION: 300000,
 };
 ```
 
@@ -55,6 +39,14 @@ Use the Zodback dashboard to manage your portfolio content:
 - **Dashboard > Portfolio > Skills**: List your technical skills
 - **Dashboard > Portfolio > Experiences**: Add your work history
 - **Dashboard > Portfolio > Testimonials**: Include client reviews
+
+### GitHub Profile Configuration
+
+Set the public GitHub link in the ZodBack portfolio profile (`profile.socialLinks.github`) using `https://github.com/<username>` (the `https://www.github.com/<username>` host is also accepted). Raw usernames, `@username`, HTTP links, repository links, and URLs with additional path segments are rejected. The GitHub navigation link and section remain hidden, with no GitHub request, until this URL has been validated after the ZodBack showcase loads. No GitHub token or secret is stored in the browser.
+
+The GitHub panel reads the public profile first, then requests up to 30 owner repositories from `api.github.com`. It never requests repositories if the profile lookup fails. Forks, archived repositories, and disabled repositories are hidden; the remaining projects are ordered by their latest push (falling back to their update date and name) and displayed in batches of 6.
+
+Successful responses are cached in browser storage for 15 minutes. For transient network, timeout, rate-limit, or server errors, the latest valid response can remain visible for up to 24 hours with a stale-data notice. Definitive errors such as an invalid source or a missing profile never use stale data. Invalid or corrupted cache entries are discarded automatically. Requests time out after 10 seconds; retry remains manual, and a rate-limit retry button stays disabled until GitHub's announced retry time.
 
 ### 4. Deploy
 
@@ -179,41 +171,34 @@ Each section can be customized in `index.html`. The main sections are:
 
 ## 🔧 API Endpoints Used
 
-The portfolio uses these Zodback API endpoints:
+The public portfolio uses this Zodback API endpoint:
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/portfolio/v1/public/all` | GET | Fetch all data at once |
-| `/portfolio/v1/public/projects` | GET | Projects only |
-| `/portfolio/v1/public/skills` | GET | Skills only |
-| `/portfolio/v1/public/experiences` | GET | Experiences only |
-| `/portfolio/v1/public/testimonials` | GET | Testimonials only |
+| `/portfolio/showcase/site/:slug` | GET | Public showcase data for the live portfolio |
+
+For `renderMode=manual`, the payload contains the validated published revision
+under `data.composition`. The browser creates elements with `createElement` and
+assigns remote copy with `textContent`; it does not use `innerHTML` or accept
+remote class/style values. Until a Storage resolver is enabled, `core.image`
+is displayed explicitly as an unresolved Storage reference.
 
 ### Authentication
 
-All requests require:
-```
-Authorization: Bearer <your_api_token>
-```
+The live site does not send a browser token. The showcase endpoint is public and already scoped to the portfolio site. Tokenized portfolio endpoints remain available for internal workflows, but this template no longer depends on them.
 
-Or using header:
-```
-X-API-Key: <your_api_token>
-```
+### GitHub Public API
 
-If your token is project-scoped, no additional header is needed. Otherwise, include:
-```
-X-Project-Id: <your_project_id>
-```
+When `profile.socialLinks.github` is configured, the page calls GitHub's public `GET /users/:username` and `GET /users/:username/repos` endpoints directly. These anonymous requests are subject to GitHub's public rate limit; the cache and stale-if-error behavior above reduce unnecessary calls.
 
 ## 🐛 Troubleshooting
 
 ### Portfolio shows "No data"
 
-1. Check if API token is correctly configured in `config.js`
-2. Verify the token has PORTFOLIO entity access
+1. Check that `SHOWCASE_SLUG` is correct in `js/config.js`
+2. Verify the portfolio showcase is published in ZodBack and that its slug is the published site slug, not the project slug
 3. Check browser console for errors
-4. Ensure CORS is enabled on your Zodback backend
+4. Ensure CORS is enabled for `portfolio.zodev.live`
 
 ### CORS Errors
 
@@ -221,12 +206,11 @@ If you see CORS errors:
 1. Ensure your Zodback backend allows your portfolio domain
 2. Add `PORTFOLIO_ORIGIN=https://your-portfolio.com` to backend `.env`
 
-### Demo Mode
+### GitHub panel is unavailable
 
-If no API token is configured, the portfolio displays demo data. This is useful for:
-- Testing the design
-- Development
-- Showcasing the template
+1. Confirm the ZodBack social link uses `https://github.com/<username>` and points to a user profile, not a repository or organization route
+2. If the panel reports a rate limit, wait until the displayed retry time or let the cached data remain visible
+3. Use the retry button for temporary network or timeout errors
 
 ## 📝 License
 

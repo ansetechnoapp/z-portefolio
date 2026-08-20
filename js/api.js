@@ -16,17 +16,6 @@ function getCacheDuration() {
   return Number(PORTFOLIO_CONFIG.CACHE_DURATION) || 300000;
 }
 
-function getCandidateBases() {
-  return [
-    PORTFOLIO_CONFIG.API_URL,
-    PORTFOLIO_CONFIG.API_FALLBACK_BASE_URL,
-    PORTFOLIO_CONFIG.LOCAL_API_BASE_URL,
-    'http://127.0.0.1:3013/api/portfolio',
-  ]
-    .map(normalizeBaseUrl)
-    .filter(Boolean);
-}
-
 function getRequestHeaders() {
   return {
     Accept: 'application/json',
@@ -40,35 +29,26 @@ function getCacheKey(url) {
 async function request(path) {
   const headers = getRequestHeaders();
   const now = Date.now();
-  let lastError = null;
+  const base = normalizeBaseUrl(PORTFOLIO_CONFIG.API_URL);
+  if (!base) throw new Error('Portfolio API URL is not configured');
+  const url = joinUrl(base, path);
+  const key = getCacheKey(url);
+  const hit = cache.get(key);
 
-  for (const base of getCandidateBases()) {
-    const url = joinUrl(base, path);
-    const key = getCacheKey(url);
-    const hit = cache.get(key);
-
-    if (hit && now - hit.timestamp < getCacheDuration()) {
-      return hit.data;
-    }
-
-    try {
-      const response = await fetch(url, { headers });
-
-      if (!response.ok) {
-        const bodyPreview = await response.text().catch(() => '');
-        const preview = bodyPreview ? `: ${bodyPreview.slice(0, 160).replace(/\s+/g, ' ')}` : '';
-        throw new Error(`HTTP ${response.status} for ${url}${preview}`);
-      }
-
-      const json = await response.json();
-      cache.set(key, { timestamp: now, data: json });
-      return json;
-    } catch (error) {
-      lastError = error instanceof Error ? error : new Error(String(error));
-    }
+  if (hit && now - hit.timestamp < getCacheDuration()) {
+    return hit.data;
   }
 
-  throw lastError || new Error(`Unable to fetch portfolio data for ${path}`);
+  const response = await fetch(url, { headers });
+  if (!response.ok) {
+    const bodyPreview = await response.text().catch(() => '');
+    const preview = bodyPreview ? `: ${bodyPreview.slice(0, 160).replace(/\s+/g, ' ')}` : '';
+    throw new Error(`HTTP ${response.status} for ${url}${preview}`);
+  }
+
+  const json = await response.json();
+  cache.set(key, { timestamp: now, data: json });
+  return json;
 }
 
 function unwrapData(payload) {
@@ -101,8 +81,20 @@ function buildCounts(projects, skills, experiences, testimonials) {
   };
 }
 
-function normalizePortfolioResponse(payload) {
+export function normalizePortfolioResponse(payload) {
   const data = unwrapData(payload);
+  if (data.renderMode === 'manual') {
+    return {
+      renderMode: 'manual',
+      composition: data.composition || null,
+      site: data.site || null,
+      metadata: {
+        ...((payload && typeof payload === 'object' && payload.metadata) || {}),
+        ...((data && typeof data === 'object' && data.metadata) || {}),
+      },
+      raw: payload,
+    };
+  }
   const projects = toArray(data.projects);
   const skills = toArray(data.skills);
   const experiences = toArray(data.experiences);
@@ -114,6 +106,7 @@ function normalizePortfolioResponse(payload) {
   };
 
   return {
+    renderMode: 'template',
     profile: data.profile || null,
     site: data.site || null,
     projects,
@@ -126,11 +119,13 @@ function normalizePortfolioResponse(payload) {
 }
 
 function getShowcaseSlug() {
-  return String(PORTFOLIO_CONFIG.SHOWCASE_SLUG || 'kowin-city').trim() || 'kowin-city';
+  return String(PORTFOLIO_CONFIG.SHOWCASE_SLUG || '').trim();
 }
 
 async function requestPortfolioData() {
-  return request(`showcase/site/${encodeURIComponent(getShowcaseSlug())}`);
+  const slug = getShowcaseSlug();
+  if (!slug) throw new Error('Portfolio showcase slug is not configured');
+  return request(`showcase/site/${encodeURIComponent(slug)}`);
 }
 
 export async function verifyConnection() {
@@ -168,5 +163,7 @@ export async function getTestimonials() {
 }
 
 export async function getShowcaseSite() {
-  return request(`showcase/site/${encodeURIComponent(getShowcaseSlug())}`);
+  const slug = getShowcaseSlug();
+  if (!slug) throw new Error('Portfolio showcase slug is not configured');
+  return request(`showcase/site/${encodeURIComponent(slug)}`);
 }

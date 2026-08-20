@@ -28,14 +28,13 @@ portefolio/
 
 ### **Before Deploying: Configure Your API**
 
-1. **Get your API token** from Zodback dashboard
-2. **Open** `js/config.js`
-3. **Update:**
+1. **Open** `js/config.js`
+2. **Update the showcase source:**
    ```javascript
    const PORTFOLIO_CONFIG = {
-       API_URL: 'https://your-api.zodback.com/api',  // Your production API
-       API_TOKEN: 'zb_your_token_here',              // Your real token
-       PROJECT_ID: '1',
+       API_URL: 'https://integrations-api.zodev.live/api/portfolio',
+       SHOWCASE_SLUG: 'kowin-city',
+       CACHE_DURATION: 300000,
    };
    ```
 
@@ -174,77 +173,7 @@ aws s3 website s3://my-portfolio --index-document index.html
 
 ## 🔒 Security for Production
 
-### **⚠️ IMPORTANT: Protect Your API Token**
-
-**Don't expose your token in client-side code for production!**
-
-### **Recommended: Use a Proxy**
-
-Create a serverless function to hide your token:
-
-#### **Netlify Function**
-
-Create `netlify/functions/portfolio.js`:
-```javascript
-exports.handler = async function(event, context) {
-  const response = await fetch('https://api.zodback.com/portfolio/v1/public/all', {
-    headers: {
-      'Authorization': `Bearer ${process.env.PORTFOLIO_API_TOKEN}`,
-      'X-Project-Id': process.env.PROJECT_ID
-    }
-  });
-
-  const data = await response.json();
-
-  return {
-    statusCode: 200,
-    headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*'
-    },
-    body: JSON.stringify(data)
-  };
-};
-```
-
-Then set environment variables in Netlify dashboard:
-- `PORTFOLIO_API_TOKEN` = your token
-- `PROJECT_ID` = your project ID
-
-Update `js/config.js`:
-```javascript
-API_URL: '/.netlify/functions/portfolio',
-API_TOKEN: '',  // Not needed anymore!
-```
-
----
-
-#### **Vercel Function**
-
-Create `api/portfolio.js`:
-```javascript
-export default async function handler(req, res) {
-  const response = await fetch('https://api.zodback.com/portfolio/v1/public/all', {
-    headers: {
-      'Authorization': `Bearer ${process.env.PORTFOLIO_API_TOKEN}`,
-      'X-Project-Id': process.env.PROJECT_ID
-    }
-  });
-
-  const data = await response.json();
-  res.json(data);
-}
-```
-
-Add to `vercel.json`:
-```json
-{
-  "env": {
-    "PORTFOLIO_API_TOKEN": "@portfolio-token",
-    "PROJECT_ID": "@project-id"
-  }
-}
-```
+The public site uses the portfolio showcase endpoint directly, so no browser token is required. The client fails closed when the endpoint or slug is invalid: it must never display stale demo data as if it were the published portfolio. A manual publication is accepted only when its Composition document validates against the local versioned `core.*` allowlist; rendering uses DOM creation and `textContent`, never remote HTML, CSS, JavaScript, classes, or inline styles. If you build a private variant later that calls tokenized portfolio routes, keep that token server-side behind a proxy or serverless function.
 
 ---
 
@@ -278,9 +207,8 @@ Most hosting providers allow custom domains:
 
 Before deploying, make sure:
 
-- [ ] **API_URL** points to production API (not localhost!)
-- [ ] **API_TOKEN** is valid and not expired
-- [ ] **PROJECT_ID** matches your project
+- [ ] **API_URL** points to the portfolio API
+- [ ] **SHOWCASE_SLUG** matches the published showcase
 - [ ] Tested locally and data loads correctly
 - [ ] No console errors in browser
 - [ ] All images and assets load
@@ -301,14 +229,13 @@ curl https://your-portfolio.com
 # Check headers
 curl -I https://your-portfolio.com
 
-# Test API data loading
-# Open browser dev tools → Network tab
-# Refresh page → Check API call
+# Test the showcase endpoint directly
+curl https://integrations-api.zodev.live/api/portfolio/showcase/site/kowin-city
 ```
 
 **Expected behavior:**
 - ✅ Page loads in < 2 seconds
-- ✅ API request succeeds (200 status)
+- ✅ Showcase request succeeds (200 status)
 - ✅ Data populates correctly
 - ✅ Images load
 - ✅ No 404 errors
@@ -396,10 +323,10 @@ Edit `index.html`:
 
 ### **Issue: API not loading**
 
-1. Check `API_URL` is correct (production URL, not localhost)
-2. Verify token is valid
+1. Check `API_URL` is correct and reachable
+2. Verify `SHOWCASE_SLUG` matches the published site
 3. Check browser console for CORS errors
-4. Test API endpoint directly: `https://your-api.com/portfolio/v1/public/all`
+4. Test the showcase endpoint directly: `https://integrations-api.zodev.live/api/portfolio/showcase/site/kowin-city`
 
 ### **Issue: Slow loading**
 
