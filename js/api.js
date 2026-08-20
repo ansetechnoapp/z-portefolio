@@ -81,8 +81,20 @@ function buildCounts(projects, skills, experiences, testimonials) {
   };
 }
 
-function normalizePortfolioResponse(payload) {
+export function normalizePortfolioResponse(payload) {
   const data = unwrapData(payload);
+  if (data.renderMode === 'manual') {
+    return {
+      renderMode: 'manual',
+      composition: data.composition || null,
+      site: data.site || null,
+      metadata: {
+        ...((payload && typeof payload === 'object' && payload.metadata) || {}),
+        ...((data && typeof data === 'object' && data.metadata) || {}),
+      },
+      raw: payload,
+    };
+  }
   const projects = toArray(data.projects);
   const skills = toArray(data.skills);
   const experiences = toArray(data.experiences);
@@ -94,6 +106,7 @@ function normalizePortfolioResponse(payload) {
   };
 
   return {
+    renderMode: 'template',
     profile: data.profile || null,
     site: data.site || null,
     projects,
@@ -106,11 +119,13 @@ function normalizePortfolioResponse(payload) {
 }
 
 function getShowcaseSlug() {
-  return String(PORTFOLIO_CONFIG.SHOWCASE_SLUG || 'kowin-city').trim() || 'kowin-city';
+  return String(PORTFOLIO_CONFIG.SHOWCASE_SLUG || '').trim();
 }
 
 async function requestPortfolioData() {
-  return request(`showcase/${encodeURIComponent(getShowcaseSlug())}`);
+  const slug = getShowcaseSlug();
+  if (!slug) throw new Error('Portfolio showcase slug is not configured');
+  return request(`showcase/site/${encodeURIComponent(slug)}`);
 }
 
 export async function verifyConnection() {
@@ -148,5 +163,7 @@ export async function getTestimonials() {
 }
 
 export async function getShowcaseSite() {
-  return request(`showcase/${encodeURIComponent(getShowcaseSlug())}`);
+  const slug = getShowcaseSlug();
+  if (!slug) throw new Error('Portfolio showcase slug is not configured');
+  return request(`showcase/site/${encodeURIComponent(slug)}`);
 }

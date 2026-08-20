@@ -3,9 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Kowin City - Studio digital pour expériences web premium.">
+  <meta name="description" content="Portfolio professionnel publié avec ZodBack.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Portfolio professionnel">
+  <meta property="og:description" content="Découvrez le parcours, les projets et les expertises présentés dans ce portfolio.">
+  <meta property="og:url" content="https://portfolio.zodev.live/">
+  <link rel="canonical" href="https://portfolio.zodev.live/">
   <meta name="theme-color" content="#0c0d10">
-  <title>Kowin City | Studio digital</title>
+  <title>Portfolio professionnel</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -38,9 +43,10 @@
           <a class="nav__link is-active" href="#accueil">Actual</a>
           <a class="nav__link" href="#a-propos">A propos</a>
           <a class="nav__link" href="#realisations">Projets</a>
+          <a class="nav__link" id="githubNavLink" href="#github" hidden>GitHub</a>
           <a class="nav__link" href="#expertises">Services</a>
           <a class="nav__link" href="#atelier">Process</a>
-          <a class="nav__link" href="#publications">Blog</a>
+          <a class="nav__link" href="#publications">Parcours & avis</a>
           <a class="nav__link" href="#contact">Contact</a>
         </nav>
 
@@ -56,6 +62,16 @@
     </header>
 
     <main id="contenu">
+      <section class="portfolio-unavailable" id="portfolioUnavailable" role="alert" aria-live="assertive" hidden>
+        <div class="container">
+          <div class="portfolio-unavailable__card">
+            <p class="eyebrow">PUBLICATION TEMPORAIREMENT INDISPONIBLE</p>
+            <h1>Ce portfolio n’est pas accessible pour le moment.</h1>
+            <p>Le contenu public n’a pas pu être vérifié. Revenez dans quelques instants ou contactez le propriétaire du portfolio.</p>
+          </div>
+        </div>
+      </section>
+
       <section class="hero section-anchor" id="accueil" aria-labelledby="hero-title">
         <div class="container hero__grid">
           <div class="hero__content" data-reveal>
@@ -301,6 +317,29 @@
         </div>
       </section>
 
+      <section class="section github-section section-anchor" id="github" aria-labelledby="github-title" hidden>
+        <div class="container">
+          <div class="section-head section-head--split">
+            <div>
+              <p class="eyebrow">ACTIVITÉ OPEN SOURCE</p>
+              <h2 class="section-title" id="github-title">Profil GitHub</h2>
+            </div>
+            <p class="github-section__intro">Profil et dépôts publics synchronisés automatiquement.</p>
+          </div>
+
+          <div id="githubContent" class="github-content" aria-live="polite" aria-busy="true">
+            <div class="github-state github-state--loading" role="status">
+              <span class="github-state__symbol" aria-hidden="true">⌁</span>
+              <div class="github-state__content">
+                <p class="eyebrow">Synchronisation GitHub</p>
+                <h3>En attente du profil public…</h3>
+                <p class="github-state__description">Les informations GitHub seront chargées après le profil ZodBack.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section class="section section--alt" id="expertises" aria-labelledby="expertise-title">
         <div class="container">
           <div class="section-head">
@@ -346,7 +385,7 @@
             <div class="stats-row__item"><strong data-counter="30" data-suffix="+">30+</strong><span>Projets réalisés</span></div>
             <div class="stats-row__item"><strong data-counter="20" data-suffix="+">20+</strong><span>Clients accompagnés</span></div>
             <div class="stats-row__item"><strong data-counter="10" data-suffix="+">10+</strong><span>Technologies maîtrisées</span></div>
-            <div class="stats-row__item"><strong data-counter="100" data-suffix="%">100%</strong><span>Satisfaction client</span></div>
+            <div class="stats-row__item"><strong data-counter="0" data-suffix="">0</strong><span>Avis publiés</span></div>
           </div>
         </div>
       </section>
@@ -407,10 +446,10 @@
         <div class="container">
           <div class="section-head section-head--split">
             <div>
-              <p class="eyebrow">LIRE ET APPRENDRE</p>
-              <h2 class="section-title" id="publications-title">Mes publications</h2>
+              <p class="eyebrow">PREUVES ET PARCOURS</p>
+              <h2 class="section-title" id="publications-title">Parcours & avis</h2>
             </div>
-            <a class="section-link" href="#">Voir tout le blog</a>
+            <a class="section-link" href="#contact">Parler d’un projet</a>
           </div>
 
           <div class="blog-grid">
@@ -488,7 +527,7 @@
             <a href="#a-propos">A propos</a>
             <a href="#realisations">Projets</a>
             <a href="#expertises">Services</a>
-            <a href="#publications">Blog</a>
+            <a href="#publications">Parcours & avis</a>
           </div>
           <div>
             <h3>Services</h3>
@@ -502,17 +541,12 @@
             <a href="#">FAQ</a>
             <a href="#">Mentions légales</a>
             <a href="#">Politique de confidentialité</a>
-            <a href="#">Blog</a>
+            <a href="#publications">Parcours & avis</a>
           </div>
           <div>
-            <h3>Newsletter</h3>
-            <p>Recevez les dernières inspirations, études de cas et ressources.</p>
-            <form class="newsletter" id="newsletterForm">
-              <label class="sr-only" for="newsletterEmail">Adresse email</label>
-              <input id="newsletterEmail" name="email" type="email" placeholder="Votre email" autocomplete="email" required>
-              <button class="btn btn--primary btn--block" type="submit">S'abonner</button>
-            </form>
-            <p class="newsletter__status" id="newsletterStatus" aria-live="polite"></p>
+            <h3>Contact</h3>
+            <p>Une question sur le parcours ou un projet ? Utilisez le formulaire de contact du portfolio.</p>
+            <a class="btn btn--primary btn--block" href="#contact">Parler d’un projet</a>
           </div>
         </div>
       </div>
